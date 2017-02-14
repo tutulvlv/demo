@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.AdminDao" >
+
+		<select id="getAllAdmin" resultType="com.xdailiao.entity.Admin">
+		    select * from admin
+		</select>
+        
+        <select id="getAdmin" parameterType="java.util.Map" resultType="com.xdailiao.entity.Admin">
+        	select * from admin where admin_name=#{admin_name} and admin_pwd=#{admin_pwd};
+        </select>
+     	<insert id="addAdmin" parameterType="com.xdailiao.entity.Admin">
+     	    insert into admin(admin_name,admin_pwd) values(#{admin_name},#{admin_pwd})
+     	</insert>
+     	<update id="updateAdmin" parameterType="com.xdailiao.entity.Admin">
+        	update admin 
+     		  	<set>
+	     			<if test="admin_name!=null and admin_name!=''"> admin_name = #{admin_name}, </if>
+	     			<if test="admin_pwd!=null and admin_pwd!=''"> admin_pwd = #{admin_pwd}, </if>
+	     			<if test="login_time!=null and login_time!=''"> login_time = #{login_time} </if>
+			  	</set>
+			where admin_id=#{admin_id}
+        </update>
+        <delete id="deleteAdmin" parameterType="Integer">
+            delete from admin
+            where admin_id=#{admin_id}
+        </delete>
+</mapper>

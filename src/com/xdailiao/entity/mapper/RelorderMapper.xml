@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.RelorderDao" >	
+       
+		<update id="setClerkId" parameterType="java.util.Map">
+			update relorder set clerkid=#{clerkid} where orderitemid=#{orderitemid}
+		</update>
+		
+		<update id="setPickId" parameterType="java.util.Map">
+			update relorder set pickid=#{pickid} where orderitemid=#{orderitemid}
+		</update>
+		
+		<select id="getPickOrderList" resultType="com.xdailiao.entity.json.PickList">
+			select orderitemid,username,comname,usertel,pickstatus,weight,quantity,orderimg from adminlist_view  
+			where pickid=#{pickid} ORDER BY orderitemid desc limit #{start},#{pageSize}
+		</select>
+		<select id="getClerkOrderList" parameterType="java.util.Map" resultType="com.xdailiao.entity.json.ClerkList" >
+		    select orderitemid,username,comname,usertel,instatus from adminlist_view  
+		    where clerkid=#{clerkid} ORDER BY orderitemid desc limit #{start},#{pageSize} 
+		</select>
+		
+		<!-- 通过订单id  设置pick提交的照片 -->
+		<update id="setPickimgByOrderitemId" parameterType="java.util.Map">
+			update orderitem set pickimg=#{pickimg},pickstatus=1,picktime=NOW() where orderitemid=#{orderitemid}
+		</update>
+		
+		<insert id="insertRelorder" parameterType="java.util.Map">
+		    insert into relorder(orderitemid,userid) values(#{orderitemid},#{userid})
+		</insert>
+		
+		<!-- 删除订单的关系表 -->
+		<delete id="deleteRelorder" parameterType="Integer">
+			delete from relorder where orderitemid = #{orderitemid}
+		</delete>
+</mapper>

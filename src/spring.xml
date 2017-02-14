@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+      xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:aop="http://www.springframework.org/schema/aop"
+      xmlns:tx="http://www.springframework.org/schema/tx"
+	  xmlns:mvc="http://www.springframework.org/schema/mvc"
+		
+      xsi:schemaLocation="
+	  http://www.springframework.org/schema/beans 
+	  http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/aop 
+	  http://www.springframework.org/schema/aop/spring-aop.xsd
+	  http://www.springframework.org/schema/lang
+	  http://www.springframework.org/schema/lang/spring-lang.xsd
+	  http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd
+ 	  http://www.springframework.org/schema/websocket
+	  http://www.springframework.org/schema/websocket/spring-websocket.xsd
+	  http://www.springframework.org/schema/jms 
+	  http://www.springframework.org/schema/jms/spring-jms.xsd
+      http://www.springframework.org/schema/lang 
+      http://www.springframework.org/schema/lang/spring-lang.xsd
+      http://www.springframework.org/schema/cache 
+      http://www.springframework.org/schema/cache/spring-cache.xsd
+      ">
+      
+     <!-- 配置C3P0连接池,目的：管理数据库连接 -->
+     <!-- 配置后 mybatis的数据库配置失效 -->
+     <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+     	<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+      	<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/crm"/>
+      	<property name="user" value="root"/>
+      	<property name="password" value="951357qaz"/>
+      	<!-- c3p0 的相关配置 http://meiyx.iteye.com/blog/865000 -->
+     </bean>
+     
+     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="comboPooledDataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/xdailiao/entity/mapper/*.xml"></property>
+	</bean>
+	 <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.xdailiao.dao"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+	
+      <!-- 配置Mybatis的事务管理器，即因为Mybatis底层用的jdbc事务管理器，所以在这里配置依然是jdbc事务管理器 -->
+      <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      	<property name="dataSource" ref="comboPooledDataSource"></property>
+      </bean>
+     
+      
+      <!-- 配置事务通知  即让那些方法需要事务 -->
+      <tx:advice id="tx" transaction-manager="dataSourceTransactionManager">
+      	<tx:attributes>
+      	<!-- 匹配方法    。。。。。。需要慎重 -->
+      		<tx:method name="*" propagation="REQUIRED" />
+      	</tx:attributes>
+      </tx:advice>
+      
+      <!-- 配置事务切面 即让指定的包下的类需要事务 -->
+      <aop:config>
+      	<aop:pointcut expression="execution(* com.xdailiao.controller.*.*(..))" id="pointcut"/>
+      	<aop:advisor advice-ref="tx" pointcut-ref="pointcut"/>
+      </aop:config>
+  
+      <!-- 注册controller -->
+      <context:component-scan base-package="com.xdailiao.*"></context:component-scan>
+      <!-- 开启注解 -->
+      <context:annotation-config></context:annotation-config>
+      
+      <!-- 视图解析器 -->
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      	<property name="prefix" value="/"></property>
+      	<property name="suffix" value=".jsp"></property>
+      </bean>
+      
+      <!-- 文件上传 -->
+      <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>  
+</beans>

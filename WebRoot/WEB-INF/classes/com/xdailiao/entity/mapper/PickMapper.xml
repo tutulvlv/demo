@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.PickDao" >
+
+	<select id="getAll" parameterType="java.util.Map" resultType="com.xdailiao.entity.Pick">
+        select * from pick limit #{start},#{pageSize}
+    </select>
+    
+    <select id="getPickId" parameterType="java.util.Map" resultType="Integer">
+    	select pickid from pick where pickname=#{pickname} and picktel=#{picktel}
+    </select>
+    
+    <select id="getTotalPick" resultType="Integer">
+		    select count(pickid) from pick ;
+	</select>
+		
+    <update id="updatePick" parameterType="com.xdailiao.entity.Pick">
+     		update pick 
+     		  	<set>
+	     			<if test=" pickname != null "> pickname = #{pickname}, </if>
+	     			<if test=" picktel != null "> picktel = #{picktel}, </if>
+	     			<if test=" pickdet != null "> pickdet = #{pickdet}, </if>
+	     			<if test=" wcopenid != null "> wcopenid = #{wcopenid} </if>
+			  	</set>
+			where
+				 pickid=#{pickid}
+     </update>
+     
+     <insert id="insertPick" parameterType="com.xdailiao.entity.Pick">
+     	insert into pick(pickname,picktel,pickdet) values(#{pickname},#{picktel},#{pickdet});
+     </insert>
+     
+     <select id="getPickByOpenid" resultType="com.xdailiao.entity.Pick" parameterType="String">
+		    select * from pick where wcopenid=#{wcopenid};
+	</select>
+</mapper>

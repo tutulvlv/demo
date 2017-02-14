@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.OrderDao" >
+		
+		<insert id="insertOrder" parameterType="java.util.Map" >
+			insert into orderitem(createtime,usertel) values(#{createtime},#{usertel})
+		</insert>
+       
+		<select id="getLastOid" parameterType="java.util.Map" resultType="Integer">
+			select orderitemid from orderitem where createtime=#{createtime} and usertel=#{usertel}
+		</select>
+		<!--  通过订单id 查找订单详情 
+		<select id="getItemByOrderId" parameterType="Integer" resultType="com.xdailiao.entity.Orderitem">
+			select * from orderitem where orderitemid=#{orderitemid}
+		</select> -->
+		<update id="setClerkput" parameterType="java.util.Map">
+			update orderitem set orderimg=#{orderimg},price=#{price},weight=#{weight},quantity=#{quantity},indet=#{indet},instatus=1,subtime=NOW()
+			where orderitemid=#{orderitemid}
+		</update>
+		
+		
+		
+		<!-- 通过订单id  设置订单支付状态 -->
+		<update id="setPaystatusByOrderitemId" parameterType="Integer">
+			update orderitem set paystatus=1 where orderitemid=#{orderitemid}
+		</update>
+		
+		<select id="getAllAdminList" parameterType="java.util.Map" resultType="com.xdailiao.entity.json.AdminList">
+		    select * from adminlist_view ORDER BY orderitemid desc limit #{start},#{pageSize}
+		</select>
+		
+		<select id="getTotalAdminList" resultType="Integer">
+		    select count(orderitemid) from adminlist_view
+		</select>
+		
+		<select id="getTotalClerkOrderList" resultType="Integer" parameterType="Integer">
+		   select count(orderitemid) from adminlist_view  
+		    where clerkid=#{clerkid}
+		</select>
+		
+		<select id="getTotalPickOrderList" resultType="Integer" parameterType="Integer">
+		    select count(orderitemid) from adminlist_view  
+		    where pickid=#{pickid}
+		</select>
+		
+		<select id="getOrderViewByTel" parameterType="String" resultType="com.xdailiao.entity.json.AdminList">
+		    select * from adminlist_view where usertel=#{usertel}
+		</select>
+		<select id="getOrderViewByOid" parameterType="Integer" resultType="com.xdailiao.entity.json.AdminList">
+		    select * from adminlist_view where orderitemid=#{orderitemid}
+		</select>
+		
+		
+		<update id="setPutByOrderitemId" parameterType="java.util.Map">
+			update orderitem set putstatus=1,putimg=#{putimg},puttime=NOW(),putdet=#{putdet} 
+			where orderitemid=#{orderitemid}
+		</update>
+		
+		<!-- 删除订单表 -->
+		<delete id="deleteOrder" parameterType="Integer">
+			delete from orderitem where orderitemid = #{orderitemid}
+		</delete>
+		<select id="getOrderListByCom" parameterType="java.util.Map" resultType="com.xdailiao.entity.json.AdminList">
+		    select * from adminlist_view where comname like #{comname} or username like #{comname} or usertel like #{comname} 
+		    ORDER BY orderitemid desc limit #{start},#{pageSize}
+		</select>
+		<select id="getTotalOrderListByCom" parameterType="String" resultType="Integer">
+		    select count(orderitemid) from adminlist_view where comname like #{comname} or username like #{comname} or usertel like #{comname}
+		</select>
+</mapper> 

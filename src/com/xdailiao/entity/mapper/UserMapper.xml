@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.UserDao" >
+	
+    <insert id="addUser" parameterType="com.xdailiao.entity.User">
+        insert into user(username,password,usertel,subnum,comname,wcopenid,status) 
+        values(#{username},#{password},#{usertel},#{subnum},#{comname},#{wcopenid},5)
+    </insert>
+    
+    <select id="getUserByNameTel" parameterType="java.util.Map" resultType="com.xdailiao.entity.User">
+        select * from user where username=#{username} and usertel=#{usertel}
+    </select>
+    
+    <select id="getUserByNumTel" parameterType="java.util.Map" resultType="com.xdailiao.entity.User">
+        select * from user where subnum=#{subnum} and usertel=#{usertel}
+    </select>
+    
+    <select id="getAllUser" parameterType="java.util.Map" resultType="com.xdailiao.entity.User">
+        select * from user order by userid desc limit #{start},#{pageSize}
+    </select>
+    
+     <select id="getTotalUser" resultType="Integer">
+		    select count(userid) from user ;
+	</select>
+	
+    <update id="updateUser" parameterType="com.xdailiao.entity.User">
+     		update user
+     		  	<set>
+	     			<if test="username != null and username!=''">username = #{username}, </if>
+	     			<if test="password != null and password!=''">password = #{password}, </if>
+	     			<if test="usertel != null and usertel!=''">usertel = #{usertel}, </if>
+	     			<if test="comname != null and comname!=''">comname = #{comname}, </if>
+	     			<if test="comtype != null and comtype!=''">comtype = #{comtype} </if>
+	     			<if test="wcopenid != null and wcopenid!=''">wcopenid = #{wcopenid}, </if>
+	     			<if test="status != null">status = #{status} </if>
+			  	</set>
+			where userid=#{userid}
+     </update>
+     <select id="getUserByOpenid" parameterType="String" resultType="com.xdailiao.entity.User">
+     	select * from user where wcopenid=#{wcopenid}
+     </select>
+     
+    <select id="getUserOrderList" parameterType="java.util.Map" resultType="com.xdailiao.entity.json.UserOrder">
+        select * from userorder_view where userid=#{userid} order by orderitemid desc limit #{start},#{pageSize}
+    </select>
+    
+    <select id="getUserOrderListNum" parameterType="Integer" resultType="Integer">
+        select count(orderitemid) from userorder_view where userid=#{userid} 
+    </select>
+    
+</mapper>

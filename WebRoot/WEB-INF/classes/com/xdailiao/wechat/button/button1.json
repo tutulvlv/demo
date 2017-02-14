@@ -1,0 +1,54 @@
+{
+    "button": [
+        {
+            "type": "view", 
+            "name": "来收废料", 
+            "url": "http://wechat.xdailiao.com/demo/suborder.jsp"
+        }, 
+        {
+            "name": "用户中心", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "用户注册", 
+                    "url": "http://wechat.xdailiao.com/demo/register.jsp"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "查询订单", 
+                    "url": "http://wechat.xdailiao.com/demo/querykey.jsp"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "呆料报价", 
+                    "url": "https://jinshuju.net/f/mOtKvF"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "联系客服", 
+                    "key": "kefu"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "意见反馈", 
+                    "url": "https://jinshuju.net/f/vR57bX"
+                }
+            ]
+        }, 
+        {
+            "name": "运营中心", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "取货中心", 
+                    "url": "http://url.cn/41q28io"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "验货中心", 
+                    "url": "http://url.cn/41q38kL"
+                }
+            ]
+        }
+    ]
+}

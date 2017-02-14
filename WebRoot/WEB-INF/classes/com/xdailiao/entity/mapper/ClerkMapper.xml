@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.ClerkDao" >
+
+		<select id="getAll" resultType="com.xdailiao.entity.Clerk">
+		    select * from clerk
+		</select>
+        
+        <select id="getClerk" parameterType="java.util.Map" resultType="com.xdailiao.entity.Clerk">
+        	select * from clerk where clerkname=#{clerkname} and clerktel=#{clerktel};
+        </select>
+     	
+     	<update id="updateClerk" parameterType="com.xdailiao.entity.Clerk">
+     		update clerk 
+     		  	<set>
+	     			<if test=" clerkname != null "> clerkname = #{clerkname}, </if>
+	     			<if test=" clerktel != null "> clerktel = #{clerktel}, </if>
+	     			<if test=" wcopenid != null "> wcopenid = #{wcopenid} </if>
+			  	</set>
+			where
+				 clerkid=#{clerkid}
+     	</update>
+     	
+     	<insert id="insertClerk" parameterType="com.xdailiao.entity.Clerk">
+     		insert into clerk(clerkname,clerktel) values(#{clerkname},#{clerktel})
+     	</insert>
+     	<select id="getClerkByOpenid" parameterType="String" resultType="com.xdailiao.entity.Clerk">
+        	select * from clerk where wcopenid=#{wcopenid};
+        </select>
+</mapper>
+
