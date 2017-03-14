@@ -11,10 +11,9 @@
     <title>测试</title>
 </head>
 <body>
-  <form action="${pageContext.request.contextPath}/user/register.action" method="post">
-    用户名：<input type="text" name="username" />
-    密码：<input type="password" name="password" />
-    联系方式：<input type="text" name="usertel" />
+  <form action="${pageContext.request.contextPath}/test/update.action" method="post">
+    <input type="text" name="dept_code" />
+    
     <input type="submit"/>
   </form>
 

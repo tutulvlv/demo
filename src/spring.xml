@@ -34,7 +34,7 @@
      <!-- 配置后 mybatis的数据库配置失效 -->
      <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
      	<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-      	<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/crm"/>
+      	<property name="jdbcUrl" value="jdbc:mysql://wechat.xdailiao.com:3306/crm"/>
       	<property name="user" value="root"/>
       	<property name="password" value="951357qaz"/>
       	<!-- c3p0 的相关配置 http://meiyx.iteye.com/blog/865000 -->

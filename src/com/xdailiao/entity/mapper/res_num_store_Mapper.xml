@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xdailiao.dao.ResNumStoreDAO" >
+	<select id="selectDeptCode" parameterType="String" resultType="Integer">
+		select STORE_ID from res_num_store where DEPART_CODE=#{dept_code}
+	</select>
+	<update id="updateDeptCode" parameterType="java.util.Map">
+		update res_num_store set DEPART_CODE=#{dept_code} where STORE_ID=#{store_id}
+	</update>
+	<insert id="insertDeptCode" parameterType="String">
+		insert into res_num_store(DEPART_CODE) values(#{dept_code})
+	</insert>
+</mapper>
+

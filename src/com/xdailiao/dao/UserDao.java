@@ -20,4 +20,5 @@ public interface UserDao {
     User getUserByOpenid(String wcopenid);
     List<UserOrder> getUserOrderList(Map map);
     int getUserOrderListNum(Integer oid);
+  
 }
